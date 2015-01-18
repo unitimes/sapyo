@@ -40,5 +40,11 @@ public class UserController {
 		return null;
 	}
 	
+	@Post("/myinfo/getlist.json")
+	public Response getlist(Http http){
+		//세션 로직
+		return null;
+	}
+	
 	
 }
