@@ -74,4 +74,10 @@ public class User {
 		this.company = company;
 	}
 
+
+	public boolean matchPassword(String password) {
+		return this.password.equals(password);
+	}
+
+
 }

@@ -36,8 +36,16 @@ public class UserController {
 	
 	@Post("/user/login.json")
 	public Response login(Http http){
-		//로그인 로직
-		return null;
+		User user = http.getJsonObject(User.class, "user");
+		System.out.println(user);
+		QueryExecuter qe = new QueryExecuter();
+		User fromDB = qe.get(User.class, user.getEmail());
+		System.out.println(fromDB);
+		qe.close();
+		if(!fromDB.matchPassword(user.getPassword()))
+			return new Json(new Result(false, null));
+		http.setSessionAttribute("user", fromDB);
+		return new Json(new Result(true, null));
 	}
 	
 	@Post("/myinfo/getlist.json")

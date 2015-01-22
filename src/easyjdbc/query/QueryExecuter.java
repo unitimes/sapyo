@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
+import easyjdbc.annotation.Table;
 import easyjdbc.query.execute.DeleteQuery;
 import easyjdbc.query.execute.DeleteWhereQuery;
 import easyjdbc.query.execute.InsertQuery;
@@ -16,6 +17,7 @@ import easyjdbc.query.raw.GetRecordsQuery;
 import easyjdbc.query.select.ListQuery;
 import easyjdbc.query.select.SelectQuery;
 import easyjdbc.query.select.SelectWhereQuery;
+import easyjdbc.query.support.PrimaryFields;
 import easyjdbc.setting.Setting;
 
 public class QueryExecuter {
@@ -35,6 +37,10 @@ public class QueryExecuter {
 	}
 
 	Connection conn;
+
+	public Connection getConn() {
+		return conn;
+	}
 
 	public QueryExecuter() {
 		conn = getConnection();
@@ -93,8 +99,8 @@ public class QueryExecuter {
 			return null;
 		return (BigInteger) primary.execute(conn).get(0);
 	}
-	
-	public int insertIfExistUpdate(Object... records){
+
+	public int insertIfExistUpdate(Object... records) {
 		int doneQueries = 0;
 		InsertQuery query;
 		for (int i = 0; i < records.length; i++) {
@@ -105,8 +111,6 @@ public class QueryExecuter {
 		}
 		return doneQueries;
 	}
-	
-	
 
 	public <T> List<T> getList(Class<T> cLass) {
 		ListQuery<T> query = new ListQuery<T>(cLass);
@@ -117,11 +121,23 @@ public class QueryExecuter {
 		ListQuery<T> query = new ListQuery<T>(cLass, condition, parameters);
 		return query.execute(conn);
 	}
-	
-	
+
 	public <T> T get(Class<T> cLass, Object... primaryKey) {
 		SelectQuery<T> query = new SelectQuery<T>(cLass, primaryKey);
 		return query.execute(conn);
+	}
+
+	public long getCount(Class<?> cLass) {
+		PrimaryFields primary = new PrimaryFields(cLass);
+		GetRecordQuery query = new GetRecordQuery(1, "select count(?) from " + cLass.getAnnotation(Table.class).value(), primary.get(0).getName());
+		return (long) query.execute(conn).get(0);
+	}
+
+	public long getCount(Class<?> cLass, String whereClause, Object... keys) {
+		PrimaryFields primary = new PrimaryFields(cLass);
+		String sql = "select count(" + primary.get(0).getName() + ") from " + cLass.getAnnotation(Table.class).value() + " where " + whereClause;
+		GetRecordQuery query = new GetRecordQuery(1, sql, keys);
+		return (long) query.execute(conn).get(0);
 	}
 
 	public <T> T getWhere(Class<T> cLass, String WhereClause, Object... keys) {
@@ -132,14 +148,13 @@ public class QueryExecuter {
 	public List<Object> execute(GetRecordQuery query) {
 		return query.execute(conn);
 	}
-	
+
 	public List<List<Object>> execute(GetRecordsQuery query) {
 		return query.execute(conn);
 	}
-	
+
 	public boolean execute(ExecuteQuery query) {
 		return query.execute(conn);
 	}
-
 
 }

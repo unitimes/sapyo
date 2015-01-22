@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1.0">
+    <link href="plugin/bootstrap/bootstrap.min.css" rel="stylesheet" media="screen">
+    <title>원매니저 - Room & Rate</title>
+</head>
+<body ng-app="sapyo">
+<div class="container">
+    <div class="panel panel-default" ng-controller="RegisterController">
+        <div class="panel-heading">회원가입</div>
+        <div class="panel-body">
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Email</span>
+                <input type="text" class="form-control" placeholder="Email" maxlength="30" ng-model="user.email">
+            </div>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Password</span>
+                <input type="password" class="form-control" placeholder="Password" maxlength="30"
+                       ng-model="user.password">
+            </div>
+
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Company</span>
+                <input type="test" class="form-control" placeholder="회사" maxlength="30" ng-model="user.company">
+            </div>
+
+            <div class="input-group input-group-lg">
+                <input type="test" class="form-control" placeholder="성" maxlength="30" ng-model="user.familyname">
+                <select class="form-control" ng-model="user.type" ng-init="user.type = types[0]"
+                        ng-options="option for option in types">
+                </select>
+            </div>
+
+            <div ng-click="submit()" class="btn btn-primary">회원가입</div>
+        </div>
+    </div>
+
+    <div class="panel panel-default" ng-controller="LoginController">
+
+
+        <div class="panel-heading">로그인</div>
+        <div class="panel-body">
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Email</span>
+                <input type="text" class="form-control" placeholder="Email" maxlength="30" ng-model="user.email">
+            </div>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Password</span>
+                <input type="password" class="form-control" placeholder="Password" maxlength="30"
+                       ng-model="user.password">
+            </div>
+            <div ng-click="submit()" class="btn btn-primary">로그인</div>
+        </div>
+
+    </div>
+
+    <div class="panel panel-default" ng-controller="SapyoController">
+        <div class="panel-heading">사표 제출</div>
+        <div class="panel-body">
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">이유는?</span>
+                <input type="text" class="form-control" placeholder="Reason" maxlength="255"
+                       ng-model="reason">
+            </div>
+            <div ng-click="submit()" class="btn btn-primary">사표내기</div>
+        </div>
+    </div>
+
+    <div class="panel panel-default" ng-controller="SapyoListController">
+        <div class="panel-heading">사표 컨트롤러</div>
+        <div class="panel-body">
+            <div class="panel panel-default" ng-repeat="sapyo in list">
+                <div class="panel-heading">{{sapyo.company}} {{sapyo.familyname}} {{sapyo.class}}님이 {{sapyo.reason}}라며
+                    사표를
+                    냈습니다. <span class="btn btn-success" ng-click="submit(sapyo.id, true)">수리</span> <span
+                            class="btn btn-primary" ng-click="submit(sapyo.id)">반려</span></div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="panel panel-default" ng-controller="MyListController">
+        <div class="panel-heading">마이리스트</div>
+        <div class="panel-body">
+            <div class="panel panel-default" ng-repeat="sapyo in list">
+                <div class="panel-heading">{{sapyo.company}} {{sapyo.familyname}} {{sapyo.class}}님이 {{sapyo.reason}}라며
+                    사표를
+                    냈습니다.
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="panel panel-default" ng-controller="WheatherController">
+        <div class="panel-heading">날씨</div>
+        <div class="panel-body">
+            전체 사용자 {{wheather.allusers}}명이 오늘 {{wheather.all}}개의 사표를 제출했군요.
+            우리회사 {{wheather.myusers}}명이 {{wheather.my}}개의 사표를 제출했군요.
+        </div>
+    </div>
+
+
+</div>
+
+
+<script src="plugin/jquery/jquery.js"></script>
+<script src="plugin/angular/angular.js"></script>
+<script src="plugin/angular/ui-bootstrap-tpls.min.js"></script>
+<script src="plugin/bootstrap/bootstrap.min.js"></script>
+<script src="js/wrap.js"></script>
+</body>
+</html>

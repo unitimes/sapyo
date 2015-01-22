@@ -18,10 +18,17 @@ CREATE TABLE `sapyo` (
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8;
 
 
-DROP TABLE IF EXISTS `contents`;
-CREATE TABLE `contents` (
+DROP TABLE IF EXISTS `reason`;
+CREATE TABLE `reason` (
 	`id` INTEGER NOT NULL,
-	`contents` TEXT NOT NULL,
-	`likes` INTEGER NOT NULL DEFAULT 0,
+	`reason` TEXT NOT NULL,
 	PRIMARY KEY(`id`)
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8;
+
+DROP TABLE IF EXISTS `reasonagreement`;
+CREATE TABLE `reasonagreement` (
+	`id` INTEGER NOT NULL,
+	`email` VARCHAR(32) NOT NULL,
+	`type` TINYINT NOT NULL,
+	PRIMARY KEY(`id`, `email`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8;
